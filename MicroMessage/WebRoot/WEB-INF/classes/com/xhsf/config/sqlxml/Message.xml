@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2016 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xhsf.dao.IMessage">
+
+	<resultMap type="com.xhsf.bean.Message" id="MessageResult">
+		<!-- 主键用id -->
+		<!-- id和result的typeHandler=""属性，强制转换数据库中的类型和java类型 -->
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="command" jdbcType="VARCHAR" property="command" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="content" jdbcType="VARCHAR" property="content" />
+	</resultMap>
+	
+	<sql id="queryMessageListSql">SELECT id, command, description, content FROM message</sql>
+	
+	<!-- 可以直接用java对象的方法 -->
+	<!-- ""用&quot;&quot;表示 -->
+	<!-- ?用#{xxx} biaoshi -->
+	<!-- select属性resultType=""对象java的数据类型，不用写上面的resultMap了，数据对应靠查询名，大小写不敏感，可通过别名使数据对应 -->
+	<select id="queryMessageList" parameterType="com.xhsf.bean.Message" resultMap="MessageResult">
+		<!-- SELECT id, command, description, content FROM message -->
+		<include refid="queryMessageListSql"/>
+		<where>
+			<if test="command != null and !&quot;&quot;.equals(command.trim())">
+				AND command = #{command}</if>
+			<if test="description != null and !&quot;&quot;.equals(description.trim())">
+				<!-- ${}标签类似于#{}没有预编译效果，直接字符串拼接，并且不会再字符串两边加上''，可用于点击列名进行排列（order by） -->
+				AND description LIKE '%' #{description} '%'
+			</if>
+		</where>
+		
+		<!-- 自动添加前后缀，去除and、or、,等功能 -->
+		<!-- <trim prefix="WHERE" suffix="" prefixOverrides="and/or" suffixOverrides=","> 
+		</trim> -->
+		<!-- if else  -->
+		<!-- <choose>
+			<when test=""></when>
+			<when test=""></when>
+			<when test=""></when>
+			<otherwise></otherwise>
+		</choose> -->
+	</select>
+
+	<delete id="deleteOne" parameterType="int">
+		DELETE FROM message WHERE id = #{_parameter}
+	</delete>
+	
+	<delete id="deleteBatch" parameterType="java.util.List">
+		DELETE FROM message WHERE id IN (
+			<foreach collection="list" item="item" separator=",">
+				#{item}
+			</foreach>
+		) 
+	</delete>
+	
+	<update id ="">
+		<!-- UPDATE message SET command = #{command},description = #{description} -->
+		UPDATE message
+		<!-- 设置set属性 自动添加删除前后缀 -->
+		<set>
+			<if test="command != null and !&quot;&quot;.equals(command.trim())">
+				command = #{command},
+			</if>
+			<if test="description != null and !&quot;&quot;.equals(description.trim())">
+				description LIKE '%' #{description} '%',
+			</if>
+		</set>
+	</update>
+	
+	<!-- <select id="version" parameterType="long" resultType="int"> SELECT 
+		version FROM user WHERE id = #{id,jdbcType=INTEGER} </select> <delete id="delete" 
+		parameterType="UserAlias"> DELETE FROM user WHERE id = #{id:INTEGER} </delete> 
+		<insert id="insert" parameterType="UserAlias" useGeneratedKeys="false"> INSERT 
+		INTO user ( id, username, password, administrator ) VALUES ( #{id}, #{username,jdbcType=VARCHAR}, 
+		#{password.encrypted:VARCHAR}, #{administrator,jdbcType=BOOLEAN} ) </insert> 
+		<update id="update" parameterType="UserAlias"> UPDATE user SET username = 
+		#{username,jdbcType=VARCHAR}, password = #{password.encrypted,jdbcType=VARCHAR}, 
+		administrator = #{administrator,jdbcType=BOOLEAN} WHERE id = #{id,jdbcType=INTEGER} 
+		</update> Unique constraint check <select id="isUniqueUsername" parameterType="map" 
+		resultType="boolean"> SELECT (count(*) = 0) FROM user WHERE ((#{userId,jdbcType=BIGINT} 
+		IS NOT NULL AND id != #{userId,jdbcType=BIGINT}) OR #{userId,jdbcType=BIGINT} 
+		IS NULL) other than me AND (username = #{username,jdbcType=VARCHAR}) </select> -->
+</mapper>

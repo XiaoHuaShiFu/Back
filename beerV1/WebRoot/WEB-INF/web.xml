@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>BeerV1</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<servlet>
+		<servlet-name>Ch3 Beer</servlet-name>
+		<servlet-class>com.example.web.BeerSelect</servlet-class>
+		<!-- 在servlet中可以使用getServletConfig().getInitParameter("adminEmail")获取此值 -->
+		<init-param>
+			<param-name>zkbEmail</param-name>
+			<param-value>ZKB@qq.com</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Ch3 Beer</servlet-name>
+		<url-pattern>/SelectBeer.do</url-pattern>
+	</servlet-mapping>
+	<session-config>
+		<session-timeout>1</session-timeout>
+	</session-config>
+
+	<servlet>
+		<servlet-name>Ch4 Beer</servlet-name>
+		<servlet-class>com.example.web.UserLog</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Ch4 Beer</servlet-name>
+		<url-pattern>/form</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Ch5 Beer</servlet-name>
+		<jsp-file>/subjectSelectResult.jsp</jsp-file>
+		<init-param>
+			<param-name>zkbEmail</param-name>
+			<param-value>ZKB@qq.com</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Ch5 Beer</servlet-name>
+		<url-pattern>/SelectSubject.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Ch6 Beer</servlet-name>
+		<servlet-class>com.example.web.IdeaSelect</servlet-class>
+		<init-param>
+			<param-name>zkbEmail</param-name>
+			<param-value>ZKB@qq.com</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Ch6 Beer</servlet-name>
+		<url-pattern>/Idea.do</url-pattern>
+	</servlet-mapping>
+	
+	<context-param>
+		<param-name>adminEmail</param-name>
+		<param-value>XHSF@qq.com</param-value>
+	</context-param>
+	
+	<listener>
+		<listener-class>com.example.MyServletContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.example.BeerSessionCounter</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.example.BeerAttributeListener</listener-class>
+	</listener>
+	
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/error.jsp</location>
+	</error-page>
+	
+	<security-role><role-name>Admin</role-name></security-role>
+	<security-role><role-name>Member</role-name></security-role>
+	<security-role><role-name>Guest</role-name></security-role>
+	
+
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/loginPage.html</form-login-page>
+			<form-error-page>/loginError.html</form-error-page>
+		</form-login-config>
+	</login-config>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>IdeaPage</web-resource-name>
+			<url-pattern>/SelectBeer.do</url-pattern>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		
+		<auth-constraint>
+			<role-name>Admin</role-name>
+		</auth-constraint>
+		
+		<!-- 使用加密后第一次访问是500，user-data-constraint无法使用 -->
+		
+		<!-- <user-data-constraint>
+			<transport-guarantee>INTEGRAL</transport-guarantee>
+		</user-data-constraint> -->
+	</security-constraint>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>SubjectPage</web-resource-name>
+			<url-pattern>/SelectSubject.do</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>Admin</role-name>
+			<role-name>Member</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<filter>
+		<filter-name>BeerRequest</filter-name>
+		<filter-class>com.example.web.BeerRequestFilter</filter-class>
+		<init-param>
+			<param-name>LogFileName</param-name>
+			<param-value>UserLog.txt</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>BeerRequest</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<!-- <servlet-name>Ch3 Beer</servlet-name> -->
+	</filter-mapping>
+	
+	<!-- <filter>
+		<filter-name>Compression</filter-name>
+		<filter-class>com.example.web.CompressionFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>Compression</filter-name>
+		<servlet-name>Ch3 Beer</servlet-name>
+	</filter-mapping> -->
+	
+</web-app>

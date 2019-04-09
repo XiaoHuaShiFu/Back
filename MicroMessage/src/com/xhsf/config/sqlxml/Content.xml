@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Content">
+
+	<resultMap type="com.xhsf.bean.Content" id="ContentResult">
+		<!-- 主键用id -->
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="content" jdbcType="VARCHAR" property="content" />
+		<result column="content_id" jdbcType="INTEGER" property="contentId" />
+		<!-- 映射到主表熟悉 -->
+		<association property="command" resultMap="Command.CommandResult" />
+	</resultMap>
+	
+	<!-- 可以直接用java对象的方法
+	""用&quot;&quot;表示
+	?用#{xxx} biaoshi
+	<select id="queryMessageList" parameterType="com.xhsf.bean.Message" resultMap="MessageResult">
+		SELECT id, command, description, content FROM message WHERE 1 = 1 
+		<if test="command != null and !&quot;&quot;.equals(command.trim())">
+			AND command = #{command}</if>
+		<if test="description != null and !&quot;&quot;.equals(description.trim())">
+			AND description LIKE '%' #{description} '%'
+		</if>
+	</select>
+
+	<delete id="deleteOne" parameterType="int">
+		DELETE FROM message WHERE id = #{_parameter}
+	</delete>
+	
+	<delete id="deleteBatch" parameterType="java.util.List">
+		DELETE FROM message WHERE id IN (
+			<foreach collection="list" item="item" separator=",">
+				#{item}
+			</foreach>
+		) 
+	</delete> -->
+	
+</mapper>

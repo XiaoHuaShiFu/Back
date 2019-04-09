@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"  
+  version="2.0" >
+
+ 	<tlib-version>1.2</tlib-version>
+ 	
+ 	<!-- jsp对应的uri? -->
+ 	<uri>randomThings</uri>
+	<!-- <uri>DiceFunctions</uri> -->
+	<function>
+		<!-- jsp的函数名 -->
+		<name>rollIt</name>
+		<!-- 函数文件的路径 -->
+		<function-class>com.example.utils.DiceRoller</function-class>
+		<!-- 函数文件的函数名 -->
+		<function-signature>java.lang.int rollDice()</function-signature>
+	</function>
+ 	
+ 	<tag>
+ 		<description>random advice</description>
+ 		<!-- 标记用名 -->
+ 		<name>advice</name>
+ 		<tag-class>com.example.utils.AdvisorTagHandler</tag-class>
+ 		<body-content>empty</body-content>
+ 		
+ 		<attribute>
+ 			<name>user</name>
+ 			<required>true</required>
+ 			<rtexprvalue>true</rtexprvalue>
+ 		</attribute>
+ 	</tag>
+ 	
+ 	<tag>
+ 		<description>test1</description>
+ 		<name>test1</name>
+ 		<tag-class>com.example.utils.TestTag</tag-class>		
+ 		<body-content>scriptLess</body-content>
+ 	</tag>
+ 	
+ 	<tag>
+ 		<description>test2</description>
+ 		<name>test2</name>
+ 		<tag-class>com.example.utils.TestTag1</tag-class>
+ 		<body-content>scriptLess</body-content>
+ 		
+ 		<attribute>
+ 			<name>movies</name>
+ 			<required>true</required>
+ 			<rtexprvalue>true</rtexprvalue>
+ 		</attribute>
+ 	</tag>
+ 	
+ 	<tag>
+ 		<description>test3</description>
+ 		<name>test3</name>
+ 		<tag-class>com.example.utils.TestTag2</tag-class>		
+ 		<body-content>scriptLess</body-content>
+ 	</tag>
+ 	
+</taglib>

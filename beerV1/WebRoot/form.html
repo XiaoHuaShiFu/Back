@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>form.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+	
+  </head>
+  
+  <style type="text/css"> 
+  		.center {
+  			text-align:center;
+  			margin:20px auto;
+  		}
+  </style>
+  
+  <body>
+   	<h1 class="center">Beer Selection Page</h1>
+   	
+   	<%
+   	
+   	
+   	<form method="post" action="SelectBeer.do">
+   		<p>Select beer characteristics</p>
+   		Color:
+   		<select name="color" size="1">
+   			<option value="light">light</option>
+   			<option value="amber">amber</option>
+   			<option value="brown">brown</option>
+   			<option value="dark">dark</option>
+   		</select>
+   		<br>
+   		<input class="center" type="submit">
+   	</form>
+   	
+   	<form method="post" action="SelectSubject.do">
+   		<p>Select Subject</p>
+   		Subject:
+   		<select name="subject" size="1">
+   			<option value="front end">front end</option>
+   			<option value="Backstage">backstage</option>
+   			<option value="algorithm">algorithm</option>
+   			<option value="artificial intelligence">artificial intelligence</option>
+   		</select>
+   		<br>
+   		<input class="center" type="submit">
+   	</form>
+   	
+   	<form method="post" action="Idea.do">
+   		<p>Select Idea Type</p>
+   		Idea Type:
+   		<select name="ideaType" size="1">
+   			<option value="Creative creativity">Creative creativity </option>
+   			<option value="Tips for life ">Tips for life </option>
+   			<option value="A sudden whim">A sudden whim to </option>
+   		</select>
+   		<br>
+   		<input class="center" type="submit">
+   	</form>
+   	
+   	
+  </body>
+  
+</html>

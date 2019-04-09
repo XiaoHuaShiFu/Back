@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="User">
+
+	<resultMap type="com.xhsf.bean.User" id="UserResult">
+		<result column="account" jdbcType="INTEGER" property="account" />
+		<result column="username" jdbcType="VARCHAR" property="username" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+		<result column="sex" jdbcType="VARCHAR" property="sex" />
+	</resultMap>
+
+	<select id="queryUserList"  resultMap="UserResult">
+		SELECT account, username, password, sex FROM user
+	</select>
+
+	<insert id="insertUser"  parameterType="com.xhsf.bean.User">
+		INSERT INTO user(account, username, password, sex) VALUES(#{account}, #{username}, #{password}, #{sex});
+	</insert>
+
+	<delete id="deleteUser" parameterType="int">
+		DELETE FROM user WHERE account = #{_parameter}
+	</delete>
+	
+	
+</mapper>
